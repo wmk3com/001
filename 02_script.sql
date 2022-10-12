@@ -1,10 +1,12 @@
-CREATE DATABASE  IF NOT EXISTS `raw_001`;
+# creacion de la base de datos para restablecer la informacion descargada
+CREATE DATABASE IF NOT EXISTS `raw_001`;
 USE `raw_001`;
 
+# creacion de la tabla raw_clientes_wocommerce
 DROP TABLE IF EXISTS `raw_clientes_wocommerce`;
 CREATE TABLE `raw_clientes_wocommerce` (
   `id` int DEFAULT NULL,
-  `links` json DEFAULT NULL,
+  `links` JSON DEFAULT NULL,
   `billing` json DEFAULT NULL,
   `last_name` text,
   `phone` text,
