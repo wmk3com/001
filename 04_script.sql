@@ -1,16 +1,19 @@
-#1
+# ¿Cuál es el total de ventas de la empresa ?
+
 SELECT 
 	SUM(importe_total_pedido*cantidad_pedido) AS ventas_totales
 FROM proyecto_001.fac_pedidos;
 
-#2
+# ¿Cuál es el total de las ventas por año?
+
 SELECT 
 	YEAR(fecha_pedido) AS anio, 
     SUM(importe_total_pedido*cantidad_pedido) AS ventas_totales
 FROM proyecto_001.fac_pedidos
 GROUP BY anio;
 
-#3
+# ¿Cuál es el total de las ventas por producto?
+
 SELECT 
 	f.SKU_producto, 
     p.nombre_producto AS producto, 
@@ -20,7 +23,8 @@ LEFT JOIN proyecto_001.dim_productos p ON p.SKU_producto = f.SKU_producto
 GROUP BY producto
 ORDER BY ventas_totales DESC;
 
-#4
+# ¿Cuál es el total de ventas por producto pero por cantidad?
+
 SELECT 
 	p.nombre_producto AS producto, 
     COUNT(p.SKU_producto) AS cantidad, 
@@ -30,7 +34,9 @@ LEFT JOIN proyecto_001.dim_productos p ON p.SKU_producto = f.SKU_producto
 GROUP BY producto
 ORDER BY ventas_totales DESC;
 
-#5
+# ¿A qué precio se ha vendido cada producto? 
+# ¿Se podría sacar el valor único?
+
 SELECT 
 	DISTINCT pr.nombre_producto AS producto, 
     costo_pedido AS costo
@@ -38,7 +44,9 @@ FROM proyecto_001.fac_pedidos AS pe
 LEFT JOIN proyecto_001.dim_productos pr ON pr.SKU_producto = pe.SKU_producto
 ORDER BY producto ASC;
 
-#6  | campañas en google | ver fechas ventas en 2021 | descuentos en 2021 | moda
+# ¿A qué podríamos atribuir ese crecimiento de ventas? 
+# ¿Podriamos ver las ventas por producto y por año?
+
 SELECT 
 	YEAR(fecha_pedido) AS anio,
     p.SKU_producto AS codigo, 
@@ -50,7 +58,8 @@ INNER JOIN proyecto_001.dim_productos p ON p.SKU_producto = f.SKU_producto
 GROUP BY anio, codigo
 ORDER BY anio ASC;
 
-#7
+# ¿Cuáles son las ventas por meses del año 2021?
+
 SELECT 
 	MONTH(fecha_pedido) AS mes, 
 	COUNT(p.SKU_producto) AS cantidad, 
@@ -61,18 +70,18 @@ WHERE YEAR(fecha_pedido) = 2021
 GROUP BY mes
 ORDER BY ventas DESC;
 
-#8
+# ¿Cuáles son los top 3 clientes que compran en términos monetarios?
 SELECT 
 	CONCAT(c.nombre_cliente,' ',c.apellido_cliente) AS cliente, 
 	SUM(importe_total_pedido) AS ventas
-	#FORMAT(SUM(importe_total_pedido),'##,###.00') AS ventas
 FROM proyecto_001.fac_pedidos f
 LEFT JOIN proyecto_001.dim_clientes c ON c.id_cliente = f.id_cliente
 GROUP BY cliente
 ORDER BY ventas DESC
 LIMIT 3;
 
-#9
+# ¿Cúales son los top 3 clientes que compran por cantidad?
+
 SELECT 
 	CONCAT(c.nombre_cliente,' ',c.apellido_cliente) AS cliente, 
     SUM(cantidad_pedido) AS cantidad
@@ -82,7 +91,8 @@ GROUP BY cliente
 ORDER BY cantidad DESC
 LIMIT 3;
 
-#10
+# ¿Cúal es el método de pago con el cual más pagan los clientes?
+
 SELECT 
 	tipo_pago_pedido, 
 	COUNT(tipo_pago_pedido) AS tipo_pago
@@ -90,13 +100,15 @@ FROM proyecto_001.fac_pedidos
 GROUP BY tipo_pago_pedido
 ORDER BY tipo_pago DESC;
 
-#11
+# ¿Cuanto es el importe total en términos monetarios utilizado en cupones?
+
 SELECT 
 	SUM(importe_de_descuento_pedido) AS total_x_cupones, 
     SUM(importe_total_pedido) AS ventas_netas
 FROM proyecto_001.fac_pedidos;
 
-#12 CTE
+# ¿Cúal es el total de cupones utilizados en las ventas en terminos cuantitativos?
+
 WITH cupones AS(
 	SELECT 
 		id_pedido, 
@@ -111,7 +123,8 @@ SELECT
 FROM proyecto_001.fac_pedidos p 
 LEFT JOIN cupones c ON c.id_pedido = p.id_pedido;
 
-#13
+# ¿Cúal es el total de cupones utilizados en las ventas en terminos cuantitativos? (desglosado por año)
+
 WITH cupones AS(
 	SELECT 
 		id_pedido, 
@@ -128,12 +141,14 @@ FROM proyecto_001.fac_pedidos p
 LEFT JOIN cupones c ON c.id_pedido = p.id_pedido
 GROUP BY anio;
 
-#14
+# ¿Cúal es el total de comisiones pagadas a Stripe?
+
 SELECT 
 	ABS(SUM(comision_pago)) AS comision  
 FROM proyecto_001.fac_pagos_stripe;
 
-#15
+# ¿Cúal es el porcentaje de comisión de cada pedido realizado por Stripe?
+
 SELECT 
 	DISTINCT comision_pago AS comision, 
     importe_pago AS total, 
@@ -142,14 +157,16 @@ FROM proyecto_001.fac_pedidos p
 LEFT JOIN proyecto_001.fac_pagos_stripe s ON s.id_pedido = p.id_pedido
 WHERE p.tipo_pago_pedido = 'Stripe';
 
-#16
+# ¿Cúal es la media de porcentaje total?
+
 SELECT 
 	FORMAT(AVG(comision_pago*100/importe_pago),1) AS porcentaje  
 FROM proyecto_001.fac_pedidos p
 LEFT JOIN proyecto_001.fac_pagos_stripe s ON s.id_pedido = p.id_pedido
 WHERE p.tipo_pago_pedido = 'Stripe';
 
-#17
+# Calcula el total de ventas, las ventas sin comisión de Stripe y las comisiones de Stripe por año.
+
 SELECT 
 	YEAR(fecha_pedido) AS anio, 
     SUM(importe_total_pedido*cantidad_pedido) AS ventas_totales, 
@@ -159,18 +176,9 @@ FROM proyecto_001.fac_pedidos p
 LEFT JOIN proyecto_001.fac_pagos_stripe s ON s.id_pedido = p.id_pedido
 GROUP BY anio;
 
-# ---------------------------------------------------------
-SELECT
-YEAR(fecha_pedido) AS YEAR,
-SUM(importe_total_pedido) AS total_ventas ,
-IFNULL(SUM(comision_pago),0) AS comisiones,
-SUM(importe_total_pedido) + IFNULL(SUM(comision_pago),0) AS ventas_netas
-FROM proyecto_001.fac_pedidos p
-LEFT JOIN proyecto_001.fac_pagos_stripe s ON s.id_pedido=p.id_pedido
-GROUP BY year(fecha_pedido);
-# ---------------------------------------------------------
+# ¿Como podríamos saber el porcentaje de ventas sobre el total de cada curso para ver si se cumple la ley de pareto?
+# ¿Qué cursos habría que continuar promocionando y cuales dejar de hacerlo?
 
-#18
 SELECT 
 	DISTINCT nombre_producto,
 	SUM(importe_total_pedido) OVER (PARTITION BY nombre_producto) AS ventas,
