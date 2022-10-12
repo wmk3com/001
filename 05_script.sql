@@ -33,8 +33,7 @@ WITH cantidad_pedidos AS (
 		id_cliente,
 		SUM(cantidad_pedido) AS pedidos
 	FROM proyecto_001.fac_pedidos ped
-	GROUP BY id_cliente
-)
+	GROUP BY id_cliente)
 
 SELECT
 	pedidos,
