@@ -1,19 +1,17 @@
-# creacion de la base de datos para restablecer la informacion descargada
 CREATE DATABASE IF NOT EXISTS `raw_001`;
 USE `raw_001`;
 
-# creacion de la tabla raw_clientes_wocommerce
 DROP TABLE IF EXISTS `raw_clientes_wocommerce`;
 CREATE TABLE `raw_clientes_wocommerce` (
-  `id` int DEFAULT NULL,
+  `id` INT DEFAULT NULL,
   `links` JSON DEFAULT NULL,
-  `billing` json DEFAULT NULL,
-  `last_name` text,
-  `phone` text,
-  `postcode` text,
-  `date_created` text,
-  `meta_data` json DEFAULT NULL,
-  `role` text
+  `billing` JSON DEFAULT NULL,
+  `last_name` TEXT,
+  `phone` TEXT,
+  `postcode` TEXT,
+  `date_created` TEXT,
+  `meta_data` JSON DEFAULT NULL,
+  `role` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_clientes_wocommerce` WRITE;
@@ -22,13 +20,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_dim_ad_facebook_ads`;
 CREATE TABLE `raw_dim_ad_facebook_ads` (
-  `created_time` date DEFAULT NULL,
-  `campaign_id` bigint DEFAULT NULL,
-  `ad_set_id` bigint DEFAULT NULL,
-  `ad_source_id` bigint DEFAULT NULL,
-  `bid_type` text,
-  `status` text,
-  `name` text
+  `created_time` DATE DEFAULT NULL,
+  `campaign_id` BIGINT DEFAULT NULL,
+  `ad_set_id` BIGINT DEFAULT NULL,
+  `ad_source_id` BIGINT DEFAULT NULL,
+  `bid_type` TEXT,
+  `status` TEXT,
+  `name` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_dim_ad_facebook_ads` WRITE;
@@ -37,28 +35,28 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_dim_campaigns_facebook`;
 CREATE TABLE `raw_dim_campaigns_facebook` (
-  `id` bigint DEFAULT NULL,
-  `boosted_object_id` text,
-  `budget_rebalance_flag` text,
-  `budget_remaining` double DEFAULT NULL,
-  `buying_type` text,
-  `can_create_brand_lift_study` text,
-  `can_use_spend_cap` text,
-  `configured_status` text,
-  `created_time` text,
-  `daily_budget` text,
-  `effective_status` text,
-  `is_skadnetwork_attribution` text,
-  `last_budget_toggling_time` text,
-  `lifetime_budget` text,
-  `name` text,
-  `objective` text,
-  `smart_promotion_type` text,
-  `source_campaign_id` bigint DEFAULT NULL,
-  `start_time` text,
-  `status` text,
-  `stop_time` text,
-  `test` bigint unsigned NOT NULL DEFAULT '0'
+  `id` BIGINT DEFAULT NULL,
+  `boosted_object_id` TEXT,
+  `budget_rebalance_flag` TEXT,
+  `budget_remaining` DOUBLE DEFAULT NULL,
+  `buying_type` TEXT,
+  `can_create_brand_lift_study` TEXT,
+  `can_use_spend_cap` TEXT,
+  `configured_status` TEXT,
+  `created_time` TEXT,
+  `daily_budget` TEXT,
+  `effective_status` TEXT,
+  `is_skadnetwork_attribution` TEXT,
+  `last_budget_toggling_time` TEXT,
+  `lifetime_budget` TEXT,
+  `name` TEXT,
+  `objective` TEXT,
+  `smart_promotion_type` TEXT,
+  `source_campaign_id` BIGINT DEFAULT NULL,
+  `start_time` TEXT,
+  `status` TEXT,
+  `stop_time` TEXT,
+  `test` BIGINT UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_dim_campaigns_facebook` WRITE;
@@ -67,16 +65,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_facebook_campaigns`;
 CREATE TABLE `raw_facebook_campaigns` (
-  `ad_id` bigint DEFAULT NULL,
-  `date` text,
-  `account_id` bigint DEFAULT NULL,
-  `campaign_id` bigint DEFAULT NULL,
-  `clicks` int DEFAULT NULL,
-  `cpc` double DEFAULT NULL,
-  `impressions` int DEFAULT NULL,
-  `social_spend` double DEFAULT NULL,
-  `spend` double DEFAULT NULL,
-  `reach` int DEFAULT NULL
+  `ad_id` BIGINT DEFAULT NULL,
+  `date` TEXT,
+  `account_id` BIGINT DEFAULT NULL,
+  `campaign_id` BIGINT DEFAULT NULL,
+  `clicks` INT DEFAULT NULL,
+  `cpc` DOUBLE DEFAULT NULL,
+  `impressions` INT DEFAULT NULL,
+  `social_spend` DOUBLE DEFAULT NULL,
+  `spend` DOUBLE DEFAULT NULL,
+  `reach` INT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_facebook_campaigns` WRITE;

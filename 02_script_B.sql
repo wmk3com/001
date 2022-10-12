@@ -1,24 +1,23 @@
-
 DROP TABLE IF EXISTS `raw_google_analytics_campaigns`;
 CREATE TABLE `raw_google_analytics_campaigns` (
-  `date` text,
-  `profile` int DEFAULT NULL,
-  `bounce_rate` double DEFAULT NULL,
-  `campaign` bigint DEFAULT NULL,
-  `goal_completions_all` int DEFAULT NULL,
-  `goal_conversion_rate_all` double DEFAULT NULL,
-  `goal_value_all` double DEFAULT NULL,
-  `new_users` int DEFAULT NULL,
-  `pageviews_per_session` double DEFAULT NULL,
-  `sessions` int DEFAULT NULL,
-  `users` int DEFAULT NULL,
-  `id_campaign` bigint,
-  `source_campaign_id` bigint DEFAULT NULL,
-  `campaign_created` datetime(6) DEFAULT NULL,
-  `campaign_status` text,
-  `campaign_name` text,
-  `campaign_objective` text,
-  `campaign_stop_time` datetime(6) DEFAULT NULL
+  `date` TEXT,
+  `profile` INT DEFAULT NULL,
+  `bounce_rate` DOUBLE DEFAULT NULL,
+  `campaign` BIGINT DEFAULT NULL,
+  `goal_completions_all` INT DEFAULT NULL,
+  `goal_conversion_rate_all` DOUBLE DEFAULT NULL,
+  `goal_value_all` DOUBLE DEFAULT NULL,
+  `new_users` INT DEFAULT NULL,
+  `pageviews_per_session` DOUBLE DEFAULT NULL,
+  `sessions` INT DEFAULT NULL,
+  `users` INT DEFAULT NULL,
+  `id_campaign` BIGINT,
+  `source_campaign_id` BIGINT DEFAULT NULL,
+  `campaign_created` DATETIME(6) DEFAULT NULL,
+  `campaign_status` TEXT,
+  `campaign_name` TEXT,
+  `campaign_objective` TEXT,
+  `campaign_stop_time` DATETIME(6) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_google_analytics_campaigns` WRITE;
@@ -27,16 +26,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_pagos_stripe`;
 CREATE TABLE `raw_pagos_stripe` (
-  `id` text,
-  `amount` int DEFAULT NULL,
-  `created` text,
-  `currency` text,
-  `description` text,
-  `fee` text,
-  `net` text,
-  `source` text,
-  `status` text,
-  `type` text
+  `id` TEXT,
+  `amount` INT DEFAULT NULL,
+  `created` TEXT,
+  `currency` TEXT,
+  `description` TEXT,
+  `fee` TEXT,
+  `net` TEXT,
+  `source` TEXT,
+  `status` TEXT,
+  `type` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_pagos_stripe` WRITE;
@@ -45,25 +44,25 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_pedidos_wocommerce`;
 CREATE TABLE `raw_pedidos_wocommerce` (
-  `numero_de_pedido` int DEFAULT NULL,
-  `estado_de_pedido` text,
-  `fecha_de_pedido` text,
-  `id cliente` int DEFAULT NULL,
-  `titulo_metodo_de_pago` text,
-  `importe_de_descuento_del_carrito` decimal(10,0) DEFAULT NULL,
-  `importe_subtotal_carrito` decimal(12,2) DEFAULT NULL,
-  `importe_envio_pedido` int DEFAULT NULL,
-  `importe_reembolsado_pedido` int DEFAULT NULL,
-  `importe_total_pedido` int DEFAULT NULL,
-  `importe_total_de_impuestos_del_pedido` double DEFAULT NULL,
-  `sku` text,
-  `articulo_numero` int DEFAULT NULL,
-  `nombre_del_articulo` text,
-  `cantidad` int DEFAULT NULL,
-  `coste_articulo` decimal(12,2) DEFAULT NULL,
-  `cupon_articulo` text,
-  `importe_descuento` text,
-  `importe_impuestos_descuento` text
+  `numero_de_pedido` INT DEFAULT NULL,
+  `estado_de_pedido` TEXT,
+  `fecha_de_pedido` TEXT,
+  `id cliente` INT DEFAULT NULL,
+  `titulo_metodo_de_pago` TEXT,
+  `importe_de_descuento_del_carrito` DECIMAL(10,0) DEFAULT NULL,
+  `importe_subtotal_carrito` DECIMAL(12,2) DEFAULT NULL,
+  `importe_envio_pedido` INT DEFAULT NULL,
+  `importe_reembolsado_pedido` INT DEFAULT NULL,
+  `importe_total_pedido` INT DEFAULT NULL,
+  `importe_total_de_impuestos_del_pedido` DOUBLE DEFAULT NULL,
+  `sku` TEXT,
+  `articulo_numero` INT DEFAULT NULL,
+  `nombre_del_articulo` TEXT,
+  `cantidad` INT DEFAULT NULL,
+  `coste_articulo` DECIMAL(12,2) DEFAULT NULL,
+  `cupon_articulo` TEXT,
+  `importe_descuento` TEXT,
+  `importe_impuestos_descuento` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_pedidos_wocommerce` WRITE;
@@ -72,25 +71,25 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `raw_productos_wocommerce`;
 CREATE TABLE `raw_productos_wocommerce` (
-  `id` int DEFAULT NULL,
-  `tipo` text,
-  `sku` int DEFAULT NULL,
-  `nombre` text,
-  `publicado` int DEFAULT NULL,
-  `visibilidad_catalogo` text,
-  `descripcion_corta` text,
-  `estado_impuesto` text,
-  `clase_impuesto` text,
-  `en_inventario` int DEFAULT NULL,
-  `Inventario` text,
-  `cantidad_de_bajo_inventario` text,
-  `vendido_individualmente` int DEFAULT NULL,
-  `peso_kg` text,
-  `longitud_cm` text,
-  `anchura_cm` text,
-  `altura_cm` text,
-  `precio_normal` int DEFAULT NULL,
-  `categorias` text
+  `id` INT DEFAULT NULL,
+  `tipo` TEXT,
+  `sku` INT DEFAULT NULL,
+  `nombre` TEXT,
+  `publicado` INT DEFAULT NULL,
+  `visibilidad_catalogo` TEXT,
+  `descripcion_corta` TEXT,
+  `estado_impuesto` TEXT,
+  `clase_impuesto` TEXT,
+  `en_inventario` INT DEFAULT NULL,
+  `Inventario` TEXT,
+  `cantidad_de_bajo_inventario` TEXT,
+  `vendido_individualmente` INT DEFAULT NULL,
+  `peso_kg` TEXT,
+  `longitud_cm` TEXT,
+  `anchura_cm` TEXT,
+  `altura_cm` TEXT,
+  `precio_normal` INT DEFAULT NULL,
+  `categorias` TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 LOCK TABLES `raw_productos_wocommerce` WRITE;
