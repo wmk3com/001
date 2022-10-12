@@ -1,4 +1,5 @@
-# 1
+# Top 5 clientes que vendimos en el 2021.
+
 SELECT 
 	CONCAT(c.nombre_cliente,' ',c.apellido_cliente) AS nombre,
 	SUM(importe_total_pedido*cantidad_pedido) AS ventas
@@ -9,7 +10,8 @@ GROUP BY nombre
 ORDER BY ventas DESC 
 LIMIT 5;
 
-# 2
+# ¿Que cantidad de clientes se crearon por año?
+
 SELECT 
 	YEAR(fecha_creacion_cliente) AS año,
 	COUNT(id_cliente) AS cantidad_clientes 
@@ -17,7 +19,8 @@ FROM proyecto_001.dim_clientes
 GROUP BY año
 ORDER BY año DESC;
 
-# 3
+# ¿Cuál es la nacionalidad de clientes con más pedidos?
+
 SELECT 
 	pais_cliente,
 	SUM(cantidad_pedido) AS pedidos
@@ -27,7 +30,8 @@ GROUP BY pais_cliente
 ORDER BY pedidos DESC
 LIMIT 3;
 
-# 4 Existen 116 clientes que tienen 2 pedidos  //  MODA
+# ¿Cuál es la cantidad de pedidos más repetida de un cliente?
+
 WITH cantidad_pedidos AS (
 	SELECT 
 		id_cliente,
@@ -43,9 +47,9 @@ GROUP BY pedidos
 ORDER BY repeticiones DESC
 LIMIT 1;
 
--- Mas legible la CTE y mejor rendimiento
+# ¿Cuál es la cantidad de pedidos realizada según el precio?
+# ¿Es el más barato el que más se repite?
 
-# 5
 SELECT 
 	costo_pedido,
 	SUM(cantidad_pedido) AS pedidos
@@ -53,7 +57,8 @@ FROM proyecto_001.fac_pedidos ped
 GROUP BY costo_pedido
 ORDER BY pedidos DESC;
 
-# 6
+# ¿Cúal es la cantidad de cupones que usó cada cliente en total y en términos monetarios?
+
 WITH cupones AS (
 	SELECT 
 		id_pedido,
@@ -71,7 +76,8 @@ LEFT JOIN cupones cu ON cu.id_pedido = p.id_pedido
 GROUP BY nombre_completo_cliente
 ORDER BY importe DESC;
 
-# 7 (no era necesario con OVER PARTITION)
+# ¿Podrías calcular la fecha mínima y máxima de compra de cada cliente y la cantidad de días desde su última compra, todo en la misma tabla?
+
 SELECT 
 	DISTINCT CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo_cliente ,
 	MIN(fecha_pedido) OVER (PARTITION BY p.id_cliente) AS primer_fecha_compra,
@@ -82,7 +88,8 @@ LEFT JOIN proyecto_001.dim_clientes c ON c.id_cliente = p.id_cliente
 ORDER BY primer_fecha_compra ASC;
 
 
-# ------------ 1
+# Crear un segmento de cliente por ventas.
+
 WITH segmento_clientes_ventas AS(
 	SELECT 
 		CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo,
@@ -105,7 +112,8 @@ FROM segmento_clientes_ventas
 GROUP BY ventas_acumuladas_cliente
 ORDER BY ventas_acumuladas_cliente;
 
-# ------------ 2
+# Crear un segmento de cliente por frecuencia de compra.
+
 WITH segmento_clientes_ventas AS(
 	SELECT 
 		CONCAT(nombre_cliente," ",apellido_cliente) AS nombre_completo,
@@ -127,7 +135,7 @@ FROM segmento_clientes_ventas
 GROUP BY cantidad_ventas_acumuladas
 ORDER BY cantidad_ventas_acumuladas;
 
-# -----------------------  ANALISIS DE MARKETING
+# Cálcula el CPC de las campañas de marketing para saber cuales rinden mejor en términos de CPC.
 
 SELECT 
 	id_campaign,
@@ -135,7 +143,8 @@ SELECT
 from proyecto_001.campaign_facebook_ads_detalle
 GROUP BY id_campaign;
 
-# 2
+# ¿Cuales son las mejores campañas en términos de CPC?
+
 SELECT 
 	id_campaign,
 	ROUND(SUM(costo)/SUM(clicks),2) AS cpc
@@ -144,7 +153,8 @@ GROUP BY id_campaign
 ORDER BY cpc AS
 LIMIT 5;
 
-# 3
+# ¿Cuantos usuarios nuevos a la web, por mes, trae cada campaña?
+
 SELECT 
 	campaign_name,
 	MONTH(fecha_google_analytics) AS mes,
@@ -155,7 +165,8 @@ LEFT JOIN proyecto_001.campaign_facebook_ads fb ON fb.id_campaign = ga.id_campai
 GROUP BY campaign_name,MONTH(fecha_google_analytics)
 ORDER BY campaign_name,MONTH(fecha_google_analytics);
 
-# 4
+# ¿Cuantas sesiones de media tuvimos en el mes de noviembre?
+
 SELECT 
 	MONTH(fecha_google_analytics),
 	AVG(sesiones)
@@ -163,7 +174,8 @@ FROM proyecto_001.campaign_google_analytics
 WHERE MONTH(fecha_google_analytics) = 11
 GROUP BY MONTH(fecha_google_analytics);
 
-# 5
+# ¿Cuáles es la media del bounce rate por campaña?
+
 SELECT 
 	id_campaign,
 	ROUND(AVG(bounce_rate),2) AS media_bounce_rate
