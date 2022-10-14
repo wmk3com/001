@@ -1,5 +1,4 @@
-SELECT * 
-FROM raw_001.raw_productos_wocommerce;
+SELECT * FROM raw_001.raw_productos_wocommerce;
 
 INSERT INTO proyecto_001.dim_productos
 	SELECT 
@@ -46,15 +45,12 @@ INSERT INTO proyecto_001.dim_clientes
 		JSON_VALUE(billing,'$[0].address_1') AS direccion_cliente
 	FROM raw_001.raw_clientes_wocommerce;
 
-SELECT * 
-FROM raw_001.raw_pedidos_wocommerce;
+SELECT * FROM raw_001.raw_pedidos_wocommerce;
 
-SELECT *
-FROM raw_001.raw_pedidos_wocommerce w
+SELECT * FROM raw_001.raw_pedidos_wocommerce w
 LEFT JOIN proyecto_001.dim_productos p ON p.nombre_producto = w.nombre_del_articulo;
 
-SELECT *
-FROM raw_001.raw_pedidos_wocommerce w
+SELECT * FROM raw_001.raw_pedidos_wocommerce w
 LEFT JOIN proyecto_001.dim_productos p ON p.nombre_producto = w.nombre_del_articulo
 WHERE nombre_producto IS NULL;
 
