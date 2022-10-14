@@ -1,8 +1,6 @@
-# creacion y seleccion de la base de datos
 CREATE SCHEMA proyecto_001;
 USE proyecto_001;
 
-# creacion de la tabla dim_clientes
 CREATE TABLE dim_clientes(
 	id_cliente INT,
     fecha_creacion_cliente DATE,
@@ -17,20 +15,17 @@ CREATE TABLE dim_clientes(
     PRIMARY KEY (id_cliente)
 );
 
-# creacion de la tabla dim_productos
 CREATE TABLE dim_productos (
   id_producto int  NULL,
   SKU_producto int NOT NULL,
   nombre_producto text,
   publicado_producto int  NULL,
   inventario_producto text,
-  # modifico el tipo de dato de precio_normal_producto de varchar(13) a int
   precio_normal_producto int NOT NULL,
   categoria_producto text,
   PRIMARY KEY (SKU_producto)
 );
 
-# creacion de la tabla fac_pedidos
 CREATE TABLE fac_pedidos (
   id_pedido int NOT NULL,
   SKU_producto int NULL,
@@ -48,7 +43,6 @@ CREATE TABLE fac_pedidos (
   FOREIGN KEY (SKU_producto) REFERENCES dim_productos (SKU_producto)
 );
 
-# creacion de la tabla fac_pagos_stripe
 CREATE TABLE fac_pagos_stripe (
     fecha_pago DATETIME(6),
     id_pedido INT,
@@ -60,7 +54,6 @@ CREATE TABLE fac_pagos_stripe (
     FOREIGN KEY (id_pedido) REFERENCES fac_pedidos (id_pedido)
 );
 
-# creacion de la tabla campaign_facebook_ads
 CREATE TABLE campaign_facebook_ads (
   id_campaign bigint NOT NULL,
   source_campaign_id bigint  NULL,
@@ -71,7 +64,7 @@ CREATE TABLE campaign_facebook_ads (
   campaign_stop_time datetime(6)  NULL,
   PRIMARY KEY (`id_campaign`)
 );
-# creacion de la tabla ad_facebook_ads
+
 CREATE TABLE ad_facebook_ads (
   fecha_creacion_ad date  NULL,
   id_campaign bigint  NULL,
@@ -82,7 +75,7 @@ CREATE TABLE ad_facebook_ads (
   nombre_ad text,
   PRIMARY KEY (`id_ad`)
 );
-# creacion de la tabla campaign_facebook_ads_detalle
+
 CREATE TABLE campaign_facebook_ads_detalle (
   fecha_campaign date  NULL,
   id_ad bigint  NULL,
@@ -92,11 +85,10 @@ CREATE TABLE campaign_facebook_ads_detalle (
   impresiones int  NULL,
   costo double  NULL,
   alcance int  NULL,
-  # CONSTRAINT PK_campaign_fb PRIMARY KEY (fecha_campaign, id_ad, id_campaign),
   FOREIGN KEY (id_ad) REFERENCES ad_facebook_ads (id_ad),
   FOREIGN KEY (id_campaign) REFERENCES campaign_facebook_ads (id_campaign)
 );
-# creacion de la tabla campaign_google_analytics
+
 CREATE TABLE campaign_google_analytics (
   fecha_google_analytics date,
   bounce_rate double,
